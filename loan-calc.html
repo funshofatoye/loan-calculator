@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>Loan Calculator by Chow</title>
+	<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+
+	<h2>Loan Calculator</h2>
+
+	<div class="container">
+
+		<div class="loan-display">
+			<h4>Our Annual Interest Rate is <span id="interest">26</span>%</h4>
+			<h2>&#8358; <span id="demo">0</span></h2>
+			<h5>Your Loan Amount</h5>
+		</div>
+
+		<div class="display-repayment">
+			<p>Monthly Payment: <span id="payment">0</span></p>
+			<p>Annual Payment: <span id="annualPayment">0</span></p>
+		</div>
+
+		<div class="input-grp">
+			<div class="input-fields">
+				<label>Enter Cost of Asset:</label>
+				<input type="text" id="cost" min="0" value="0" onchange="paymentTerms()" oninput="paymentTerms()" />
+			</div>
+
+			<div class="input-fields">
+				<label>How much is your deposit:</label>
+				<input type="text" id="deposit" min="0" value="0" oninput="paymentTerms()" />
+			</div>
+
+			<div class="input-fields">
+				<label>Time of Repayment (Months):</label>
+				<input type="number" id="months" min="12" value="12" oninput="paymentTerms()" />
+			</div>
+		</div>
+
+	</div>
+
+	<script type="text/javascript">
+
+		function paymentTerms(){
+			var cost = + document.getElementById("cost").value;
+			var deposit = + document.getElementById("deposit").value;
+			var loan = + document.getElementById("demo").innerHTML;
+			var months = + document.getElementById("months").value;
+			var interestRate = + document.getElementById("interest").innerHTML;
+			var monthly = + document.getElementById("payment").innerHTML;
+			var annual = + document.getElementById("annualPayment").innerHTML;
+
+
+			if (deposit >= cost) {
+				document.getElementById("demo").innerHTML = "Deposit must be less than cost amount";
+				return;
+				
+			}
+
+			if(isNaN(cost) || isNaN(deposit)) {
+				document.getElementById("demo").innerHTML =  "Enter Valid Numbers Only";
+				document.getElementById("payment").innerHTML = "0";
+				document.getElementById("annualPayment").innerHTML = "0";
+
+			} else {
+				var loan = cost - deposit;
+
+				var principal = (loan * 0.26) + loan;
+				var payment = (principal / months).toFixed(2);
+				var annualPayment = (payment * months).toFixed(2);
+
+				loan = loan.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				document.getElementById("demo").innerHTML =  loan;
+
+				payment = payment.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				annualPayment = annualPayment.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+				document.getElementById("payment").innerHTML = payment;
+				document.getElementById("annualPayment").innerHTML = annualPayment;
+
+			}
+
+		}
+
+
+
+	</script>
+</body>
+</html>
